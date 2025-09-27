@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard Overview{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Welcome Section -->
+    <div class="bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-lg p-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">Welcome to AI-Driven LCA Tool</h1>
+                <p class="text-blue-100 text-lg">Advancing Circularity and Sustainability in Metallurgy and Mining</p>
+                <p class="text-blue-200 text-sm mt-2">Ministry of Mines | Jawaharlal Nehru Aluminium Research Development and Design Centre</p>
+            </div>
+            <div class="hidden md:block">
+                <i class="fas fa-leaf text-6xl text-blue-300"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="stat-card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="stat-value" id="totalAssessments">0</div>
+                    <div class="stat-label">Total Assessments</div>
+                </div>
+                <i class="fas fa-chart-line text-3xl opacity-75"></i>
+            </div>
+        </div>
+        
+        <div class="stat-card" style="background: linear-gradient(135deg, #059669 0%, #047857 100%);">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="stat-value" id="avgCircularityScore">0</div>
+                    <div class="stat-label">Avg Circularity Score</div>
+                </div>
+                <i class="fas fa-recycle text-3xl opacity-75"></i>
+            </div>
+        </div>
+        
+        <div class="stat-card" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%);">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="stat-value" id="co2Saved">0</div>
+                    <div class="stat-label">CO₂ Saved (tonnes)</div>
+                </div>
+                <i class="fas fa-leaf text-3xl opacity-75"></i>
+            </div>
+        </div>
+        
+        <div class="stat-card" style="background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="stat-value" id="energySaved">0</div>
+                    <div class="stat-label">Energy Saved (MWh)</div>
+                </div>
+                <i class="fas fa-bolt text-3xl opacity-75"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="card hover:shadow-lg transition-shadow">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-industry text-2xl text-blue-600"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Start New Assessment</h3>
+                <p class="text-gray-600 mb-4">Begin a new Life Cycle Assessment for your metallurgical process</p>
+                <a href="{{ url_for('process_input') }}" class="btn-primary inline-block">Get Started</a>
+            </div>
+        </div>
+        
+        <div class="card hover:shadow-lg transition-shadow">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-robot text-2xl text-green-600"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">AI Predictions</h3>
+                <p class="text-gray-600 mb-4">Get AI-powered insights and missing parameter estimates</p>
+                <a href="{{ url_for('ai_predictions') }}" class="btn-primary inline-block">View Predictions</a>
+            </div>
+        </div>
+        
+        <div class="card hover:shadow-lg transition-shadow">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-chart-pie text-2xl text-orange-600"></i>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">View Reports</h3>
+                <p class="text-gray-600 mb-4">Generate comprehensive reports and recommendations</p>
+                <a href="{{ url_for('reports') }}" class="btn-primary inline-block">Generate Report</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-xl font-semibold">Recent Activity</h2>
+        </div>
+        <div id="recentActivity">
+            <div class="text-center py-8 text-gray-500">
+                <i class="fas fa-chart-line text-4xl mb-4"></i>
+                <p>No recent assessments found</p>
+                <p class="text-sm">Start your first LCA assessment to see activity here</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Environmental Impact Overview -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Environmental Impact Trends</h2>
+            </div>
+            <div class="chart-container">
+                <canvas id="impactChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Circularity Metrics</h2>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-medium">Material Recovery Rate</span>
+                        <span class="font-bold text-blue-600">85%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-medium">Recyclability Score</span>
+                        <span class="font-bold text-green-600">78%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill bg-green-600" style="width: 78%"></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-medium">Energy Efficiency</span>
+                        <span class="font-bold text-orange-600">72%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill bg-orange-600" style="width: 72%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
