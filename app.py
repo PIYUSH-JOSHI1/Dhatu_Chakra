@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
-import pandas as pd
+# import pandas as pd  # Comment out temporarily
 import os
 from datetime import datetime
 import csv
@@ -93,8 +93,10 @@ def get_process_data():
     try:
         filepath = os.path.join('data', 'process_data.csv')
         if os.path.exists(filepath):
-            df = pd.read_csv(filepath)
-            return jsonify(df.to_dict('records'))
+            with open(filepath, 'r', newline='') as file:
+                reader = csv.DictReader(file)
+                data = list(reader)
+                return jsonify(data)
         else:
             return jsonify([])
     except Exception as e:
