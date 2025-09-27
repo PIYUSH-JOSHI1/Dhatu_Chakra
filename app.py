@@ -91,9 +91,14 @@ def circularity_assessment():
 @app.route('/api/process-data')
 def get_process_data():
     try:
-        df = pd.read_csv('data/process_data.csv')
-        return jsonify(df.to_dict('records'))
-    except:
+        filepath = os.path.join('data', 'process_data.csv')
+        if os.path.exists(filepath):
+            df = pd.read_csv(filepath)
+            return jsonify(df.to_dict('records'))
+        else:
+            return jsonify([])
+    except Exception as e:
+        print(f"Error reading process data: {str(e)}")
         return jsonify([])
 
 @app.route('/api/simulate-ai-predictions', methods=['POST'])
