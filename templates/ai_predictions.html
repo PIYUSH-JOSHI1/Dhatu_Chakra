@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}AI Predictions{% endblock %}
+{% block page_title %}AI-Powered Parameter Predictions{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- AI Prediction Interface -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-xl font-semibold">AI Parameter Estimation</h2>
+            <p class="text-gray-600">Let AI fill in missing parameters based on your process details</p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="space-y-4">
+                <h3 class="font-semibold">Input Known Parameters</h3>
+                <div class="form-group">
+                    <label class="form-label">Metal Type</label>
+                    <select id="aiMetalType" class="form-input form-select">
+                        <option value="aluminium">Aluminium</option>
+                        <option value="copper">Copper</option>
+                        <option value="steel">Steel</option>
+                        <option value="zinc">Zinc</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Process Type</label>
+                    <select id="aiProcessType" class="form-input form-select">
+                        <option value="primary">Primary (Raw Material)</option>
+                        <option value="secondary">Secondary (Recycled)</option>
+                        <option value="hybrid">Hybrid</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Location/Region</label>
+                    <select id="aiRegion" class="form-input form-select">
+                        <option value="north">Northern India</option>
+                        <option value="south">Southern India</option>
+                        <option value="east">Eastern India</option>
+                        <option value="west">Western India</option>
+                        <option value="central">Central India</option>
+                    </select>
+                </div>
+                
+                <button onclick="generatePredictions()" class="btn-primary w-full">
+                    <i class="fas fa-magic mr-2"></i>
+                    Generate AI Predictions
+                </button>
+            </div>
+            
+            <div id="predictionResults" class="bg-gray-50 p-6 rounded-lg">
+                <div class="text-center text-gray-500">
+                    <i class="fas fa-robot text-4xl mb-4"></i>
+                    <p>Click "Generate AI Predictions" to see estimated parameters</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confidence Levels -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Prediction Confidence</h2>
+            </div>
+            <div id="confidenceMetrics">
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-chart-bar text-4xl mb-4"></i>
+                    <p>Generate predictions to view confidence levels</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Data Sources</h2>
+            </div>
+            <div class="space-y-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <span class="text-sm">Industry benchmarks (15,000+ data points)</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <span class="text-sm">Regional energy grid data</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
+                    <span class="text-sm">Historical process data</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+                    <span class="text-sm">Government environmental databases</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-xl font-semibold">AI-Generated Recommendations</h2>
+        </div>
+        <div id="aiRecommendations">
+            <div class="text-center py-8 text-gray-500">
+                <i class="fas fa-lightbulb text-4xl mb-4"></i>
+                <p>AI recommendations will appear after generating predictions</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/ai_predictions.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,2 @@
+timestamp,user_id,process_type,metal_type,energy_consumption,transport_distance,recovery_rate,end_of_life_scenario,location
+2025-09-28T00:10:01.612233,dfhgds,secondary,steel,5677,766,56,reuse,gsa

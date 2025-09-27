@@ -1,0 +1,3 @@
+timestamp,user_id,co2_footprint,energy_intensity,water_use,material_recovery,recyclability_score,circularity_index
+2025-09-28T00:10:31.625651,ai_prediction_user,2500,15000,3500,85,78,72
+2025-09-28T00:10:37.893592,ai_prediction_user,2500,15000,3500,85,78,72

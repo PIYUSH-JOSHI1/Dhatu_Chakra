@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI-Driven LCA Tool{% endblock %} - Ministry of Mines</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-blue-900 text-white fixed h-full overflow-y-auto">
+            <!-- Header -->
+            <div class="p-4 border-b border-blue-800">
+                <div class="flex items-center space-x-3">
+                    <img src="{{ url_for('static', filename='images/india-emblem.png') }}" alt="India Emblem" class="w-10 h-10">
+                    <div>
+                        <h1 class="text-sm font-bold">Ministry of Mines</h1>
+                        <p class="text-xs text-blue-200">JNARDDC</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="mt-6">
+                <div class="px-4 mb-4">
+                    <h2 class="text-xs font-semibold text-blue-300 uppercase tracking-wider">LCA TOOL</h2>
+                </div>
+                
+                <a href="{{ url_for('dashboard') }}" class="nav-item flex items-center px-4 py-3 text-sm hover:bg-blue-800 transition-colors {{ 'bg-blue-800' if request.endpoint == 'dashboard' }}">
+                    <i class="fas fa-tachometer-alt mr-3"></i>
+                    Dashboard
+                </a>
+                
+                <a href="{{ url_for('process_input') }}" class="nav-item flex items-center px-4 py-3 text-sm hover:bg-blue-800 transition-colors {{ 'bg-blue-800' if request.endpoint == 'process_input' }}">
+                    <i class="fas fa-industry mr-3"></i>
+                    Process Input
+                </a>
+                
+                <a href="{{ url_for('analysis') }}" class="nav-item flex items-center px-4 py-3 text-sm hover:bg-blue-800 transition-colors {{ 'bg-blue-800' if request.endpoint == 'analysis' }}">
+                    <i class="fas fa-chart-line mr-3"></i>
+                    LCA Analysis
+                </a>
+                
+                <a href="{{ url_for('ai_predictions') }}" class="nav-item flex items-center px-4 py-3 text-sm hover:bg-blue-800 transition-colors {{ 'bg-blue-800' if request.endpoint == 'ai_predictions' }}">
+                    <i class="fas fa-robot mr-3"></i>
+                    AI Predictions
+                </a>
+                
+                <a href="{{ url_for('circularity_assessment') }}" class="nav-item flex items-center px-4 py-3 text-sm hover:bg-blue-800 transition-colors {{ 'bg-blue-800' if request.endpoint == 'circularity_assessment' }}">
+                    <i class="fas fa-recycle mr-3"></i>
+                    Circularity Assessment
+                </a>
+                
+                <a href="{{ url_for('visualization') }}" class="nav-item flex items-center px-4 py-3 text-sm hover:bg-blue-800 transition-colors {{ 'bg-blue-800' if request.endpoint == 'visualization' }}">
+                    <i class="fas fa-chart-pie mr-3"></i>
+                    Visualization
+                </a>
+                
+                <a href="{{ url_for('reports') }}" class="nav-item flex items-center px-4 py-3 text-sm hover:bg-blue-800 transition-colors {{ 'bg-blue-800' if request.endpoint == 'reports' }}">
+                    <i class="fas fa-file-alt mr-3"></i>
+                    Reports
+                </a>
+            </nav>
+            
+            <!-- Footer -->
+            <div class="absolute bottom-4 left-4 right-4">
+                <div class="text-xs text-blue-300">
+                    <p>&copy; 2025 Ministry of Mines</p>
+                    <p>Government of India</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="ml-64 flex-1 flex flex-col">
+            <!-- Header -->
+            <header class="bg-white shadow-sm border-b">
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">{% block page_title %}AI-Driven Life Cycle Assessment Tool{% endblock %}</h1>
+                            <p class="text-sm text-gray-600">Advancing Circularity and Sustainability in Metallurgy and Mining</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <p class="text-sm font-medium text-gray-900">JNARDDC Portal</p>
+                                <p class="text-xs text-gray-500">Jawaharlal Nehru Aluminium Research Development and Design Centre</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="px-6 py-4">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'success' if category == 'success' else 'error' }} p-4 rounded-md mb-4">
+                                <div class="flex">
+                                    <i class="fas fa-{{ 'check-circle' if category == 'success' else 'exclamation-circle' }} mr-2"></i>
+                                    <span>{{ message }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto">
+                <div class="p-6">
+                    {% block content %}{% endblock %}
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

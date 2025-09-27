@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block title %}Reports{% endblock %}
+{% block page_title %}Reports & Recommendations{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Report Generation -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-xl font-semibold">Generate Custom Report</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+                <div class="form-group">
+                    <label class="form-label">Report Type</label>
+                    <select id="reportType" class="form-input form-select">
+                        <option value="comprehensive">Comprehensive LCA Report</option>
+                        <option value="environmental">Environmental Impact Summary</option>
+                        <option value="circularity">Circularity Assessment Report</option>
+                        <option value="comparison">Process Comparison Report</option>
+                        <option value="recommendations">Recommendations Only</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Time Period</label>
+                    <select id="timePeriod" class="form-input form-select">
+                        <option value="current">Current Assessment</option>
+                        <option value="monthly">Last Month</option>
+                        <option value="quarterly">Last Quarter</option>
+                        <option value="yearly">Last Year</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Output Format</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" checked class="mr-2"> PDF
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> Excel
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2"> CSV
+                        </label>
+                    </div>
+                </div>
+                
+                <button onclick="generateReport()" class="btn-primary w-full">
+                    <i class="fas fa-file-pdf mr-2"></i>
+                    Generate Report
+                </button>
+            </div>
+            
+            <div class="bg-blue-50 p-6 rounded-lg">
+                <h3 class="font-semibold text-blue-900 mb-4">Report Preview</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                        <span>Report sections:</span>
+                        <span id="sectionCount">8 sections</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Estimated pages:</span>
+                        <span id="pageCount">15-20 pages</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Charts & visualizations:</span>
+                        <span id="chartCount">12 charts</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Data points included:</span>
+                        <span id="dataPointCount">250+ metrics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Reports -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-xl font-semibold">Recent Reports</h2>
+        </div>
+        <div class="space-y-3">
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-pdf text-red-600"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-medium">Comprehensive LCA Report - Aluminium Process</h4>
+                        <p class="text-sm text-gray-600">Generated on 15 Jan 2025 • 18 pages</p>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="btn-secondary text-sm">
+                        <i class="fas fa-download mr-1"></i>
+                        Download
+                    </button>
+                    <button class="btn-secondary text-sm">
+                        <i class="fas fa-eye mr-1"></i>
+                        Preview
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-excel text-green-600"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-medium">Environmental Impact Data Export</h4>
+                        <p class="text-sm text-gray-600">Generated on 12 Jan 2025 • Excel format</p>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="btn-secondary text-sm">
+                        <i class="fas fa-download mr-1"></i>
+                        Download
+                    </button>
+                    <button class="btn-secondary text-sm">
+                        <i class="fas fa-eye mr-1"></i>
+                        Preview
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div class="flex items-center space-x-4">
+                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-alt text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-medium">Circularity Assessment Summary</h4>
+                        <p class="text-sm text-gray-600">Generated on 10 Jan 2025 • 8 pages</p>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="btn-secondary text-sm">
+                        <i class="fas fa-download mr-1"></i>
+                        Download
+                    </button>
+                    <button class="btn-secondary text-sm">
+                        <i class="fas fa-eye mr-1"></i>
+                        Preview
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations Dashboard -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-xl font-semibold">AI-Generated Recommendations</h2>
+        </div>
+        <div id="recommendationsContainer">
+            <div class="text-center py-8 text-gray-500">
+                <i class="fas fa-lightbulb text-4xl mb-4"></i>
+                <p>Generate a report to view AI recommendations</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Executive Summary</h2>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-gradient-to-r from-blue-50 to-green-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-gray-900 mb-2">Key Findings</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Current process has 78% circularity score</li>
+                        <li>• CO₂ emissions are 15% below industry average</li>
+                        <li>• Material recovery rate of 85% achieved</li>
+                        <li>• Potential for 40% further improvement identified</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gradient-to-r from-orange-50 to-red-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-gray-900 mb-2">Priority Actions</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Implement advanced sorting technology</li>
+                        <li>• Establish circular supply partnerships</li>
+                        <li>• Optimize energy consumption patterns</li>
+                        <li>• Enhance end-of-life recovery processes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Performance Metrics</h2>
+            </div>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-medium">Overall LCA Score</span>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-24 bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 82%"></div>
+                        </div>
+                        <span class="text-sm font-bold text-green-600">82/100</span>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-medium">Environmental Impact</span>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-24 bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 78%"></div>
+                        </div>
+                        <span class="text-sm font-bold text-blue-600">78/100</span>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-medium">Circularity Index</span>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-24 bg-gray-200 rounded-full h-2">
+                            <div class="bg-purple-500 h-2 rounded-full" style="width: 78%"></div>
+                        </div>
+                        <span class="text-sm font-bold text-purple-600">78/100</span>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-medium">Economic Viability</span>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-24 bg-gray-200 rounded-full h-2">
+                            <div class="bg-orange-500 h-2 rounded-full" style="width: 85%"></div>
+                        </div>
+                        <span class="text-sm font-bold text-orange-600">85/100</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/reports.js') }}"></script>
+{% endblock %}

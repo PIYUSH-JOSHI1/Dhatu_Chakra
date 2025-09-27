@@ -1,0 +1,352 @@
+{% extends "base.html" %}
+
+{% block title %}Circularity Assessment{% endblock %}
+{% block page_title %}Circularity Assessment Dashboard{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Circularity Overview -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Circularity Flow Diagram</h2>
+            </div>
+            <div class="h-96 flex items-center justify-center bg-gray-50 rounded-lg">
+                <div id="sankeyDiagram" class="w-full h-full">
+                    <div class="text-center py-20">
+                        <i class="fas fa-project-diagram text-6xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-500">Interactive Sankey diagram will be displayed here</p>
+                        <button onclick="generateFlowDiagram()" class="btn-primary mt-4">Generate Flow Diagram</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Overall Circularity Score</h2>
+            </div>
+            <div class="text-center py-8">
+                <div class="circularity-ring mx-auto mb-4" style="--score: 78">
+                    <div class="score-text">78%</div>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-lg font-semibold text-green-600">Good Circularity</div>
+                    <div class="text-sm text-gray-600">Above industry average</div>
+                </div>
+                
+                <div class="mt-6 space-y-3">
+                    <div class="flex justify-between text-sm">
+                        <span>Linear Process</span>
+                        <span>Circular Process</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-3">
+                        <div class="bg-green-500 h-3 rounded-full" style="width: 78%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Circularity Metrics -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="card text-center">
+            <div class="text-3xl font-bold text-blue-600 mb-2">85%</div>
+            <div class="text-sm font-medium text-gray-600 mb-2">Material Recovery Rate</div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-blue-500 h-2 rounded-full" style="width: 85%"></div>
+            </div>
+        </div>
+        
+        <div class="card text-center">
+            <div class="text-3xl font-bold text-green-600 mb-2">92%</div>
+            <div class="text-sm font-medium text-gray-600 mb-2">Recyclability Index</div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-green-500 h-2 rounded-full" style="width: 92%"></div>
+            </div>
+        </div>
+        
+        <div class="card text-center">
+            <div class="text-3xl font-bold text-orange-600 mb-2">67%</div>
+            <div class="text-sm font-medium text-gray-600 mb-2">Resource Efficiency</div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-orange-500 h-2 rounded-full" style="width: 67%"></div>
+            </div>
+        </div>
+        
+        <div class="card text-center">
+            <div class="text-3xl font-bold text-purple-600 mb-2">5.2</div>
+            <div class="text-sm font-medium text-gray-600 mb-2">Product Lifespan (years)</div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-purple-500 h-2 rounded-full" style="width: 65%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Circular vs Linear Comparison -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-xl font-semibold">Linear vs Circular Process Comparison</h2>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-lg font-semibold mb-4 text-red-700">Current Linear Process</h3>
+                <div class="space-y-4">
+                    <div class="flow-step linear">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4 class="font-medium">Raw Material Extraction</h4>
+                            <p class="text-sm text-gray-600">Mining → Processing → Transport</p>
+                        </div>
+                    </div>
+                    <div class="flow-step linear">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4 class="font-medium">Manufacturing</h4>
+                            <p class="text-sm text-gray-600">Energy-intensive production</p>
+                        </div>
+                    </div>
+                    <div class="flow-step linear">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4 class="font-medium">Use Phase</h4>
+                            <p class="text-sm text-gray-600">Product lifecycle</p>
+                        </div>
+                    </div>
+                    <div class="flow-step linear">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4 class="font-medium">End-of-Life</h4>
+                            <p class="text-sm text-gray-600">Disposal → Landfill</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold mb-4 text-green-700">Optimized Circular Process</h3>
+                <div class="space-y-4">
+                    <div class="flow-step circular">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4 class="font-medium">Sustainable Sourcing</h4>
+                            <p class="text-sm text-gray-600">Recycled materials + minimal extraction</p>
+                        </div>
+                    </div>
+                    <div class="flow-step circular">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4 class="font-medium">Efficient Manufacturing</h4>
+                            <p class="text-sm text-gray-600">Renewable energy + waste reduction</p>
+                        </div>
+                    </div>
+                    <div class="flow-step circular">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4 class="font-medium">Extended Use</h4>
+                            <p class="text-sm text-gray-600">Durability + maintenance</p>
+                        </div>
+                    </div>
+                    <div class="flow-step circular">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4 class="font-medium">Recovery & Recycling</h4>
+                            <p class="text-sm text-gray-600">95% material recovery → Back to step 1</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-8 bg-green-50 p-6 rounded-lg">
+            <h4 class="font-semibold text-green-800 mb-4">Potential Impact of Circular Transition</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-600">-40%</div>
+                    <div class="text-sm">CO₂ Emissions Reduction</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-blue-600">-35%</div>
+                    <div class="text-sm">Energy Consumption</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-orange-600">₹85L</div>
+                    <div class="text-sm">Annual Cost Savings</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Plan -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-xl font-semibold">Circularity Action Plan</h2>
+        </div>
+        <div class="space-y-4">
+            <div class="action-item high-priority">
+                <div class="action-header">
+                    <h4 class="font-semibold">Implement Advanced Sorting Technology</h4>
+                    <span class="priority-badge high">High Priority</span>
+                </div>
+                <p class="text-gray-600 mb-3">Increase material recovery rate from 85% to 95% through automated sorting systems.</p>
+                <div class="action-details">
+                    <div class="detail-item">
+                        <strong>Impact:</strong> +10% material recovery, ₹25L annual savings
+                    </div>
+                    <div class="detail-item">
+                        <strong>Timeline:</strong> 6-8 months implementation
+                    </div>
+                    <div class="detail-item">
+                        <strong>Investment:</strong> ₹1.2 crore
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-item medium-priority">
+                <div class="action-header">
+                    <h4 class="font-semibold">Establish Circular Supply Chain Partnerships</h4>
+                    <span class="priority-badge medium">Medium Priority</span>
+                </div>
+                <p class="text-gray-600 mb-3">Partner with suppliers for closed-loop material flows and waste exchange.</p>
+                <div class="action-details">
+                    <div class="detail-item">
+                        <strong>Impact:</strong> 20% reduction in raw material needs
+                    </div>
+                    <div class="detail-item">
+                        <strong>Timeline:</strong> 12 months
+                    </div>
+                    <div class="detail-item">
+                        <strong>Investment:</strong> Low (operational changes)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-item low-priority">
+                <div class="action-header">
+                    <h4 class="font-semibold">Product Design for Circularity</h4>
+                    <span class="priority-badge low">Low Priority</span>
+                </div>
+                <p class="text-gray-600 mb-3">Redesign products for easier disassembly and material recovery.</p>
+                <div class="action-details">
+                    <div class="detail-item">
+                        <strong>Impact:</strong> Long-term circularity improvement
+                    </div>
+                    <div class="detail-item">
+                        <strong>Timeline:</strong> 18-24 months
+                    </div>
+                    <div class="detail-item">
+                        <strong>Investment:</strong> R&D investment required
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/circularity_assessment.js') }}"></script>
+{% endblock %}
+
+{% block scripts %}
+<style>
+.flow-step {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-left: 4px solid;
+}
+
+.flow-step.linear {
+    background-color: #fef2f2;
+    border-left-color: #ef4444;
+}
+
+.flow-step.circular {
+    background-color: #f0fdf4;
+    border-left-color: #22c55e;
+}
+
+.step-number {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    margin-right: 1rem;
+}
+
+.linear .step-number {
+    background-color: #ef4444;
+}
+
+.circular .step-number {
+    background-color: #22c55e;
+}
+
+.action-item {
+    border: 1px solid;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.action-item.high-priority {
+    border-color: #fca5a5;
+    background-color: #fef2f2;
+}
+
+.action-item.medium-priority {
+    border-color: #fcd34d;
+    background-color: #fffbeb;
+}
+
+.action-item.low-priority {
+    border-color: #86efac;
+    background-color: #f0fdf4;
+}
+
+.action-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.priority-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    text-transform: uppercase;
+}
+
+.priority-badge.high {
+    background-color: #fca5a5;
+    color: #7f1d1d;
+}
+
+.priority-badge.medium {
+    background-color: #fcd34d;
+    color: #78350f;
+}
+
+.priority-badge.low {
+    background-color: #86efac;
+    color: #14532d;
+}
+
+.action-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.detail-item {
+    font-size: 0.875rem;
+    color: #4b5563;
+}
+</style>
+{% endblock %}

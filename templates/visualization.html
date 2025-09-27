@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Visualization{% endblock %}
+{% block page_title %}Data Visualization Dashboard{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Chart Controls -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-xl font-semibold">Visualization Options</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <button onclick="showChart('environmental')" class="btn-primary text-center p-4">
+                <i class="fas fa-leaf text-xl mb-2"></i>
+                <div class="text-sm">Environmental Impact</div>
+            </button>
+            <button onclick="showChart('energy')" class="btn-primary text-center p-4">
+                <i class="fas fa-bolt text-xl mb-2"></i>
+                <div class="text-sm">Energy Analysis</div>
+            </button>
+            <button onclick="showChart('circular')" class="btn-primary text-center p-4">
+                <i class="fas fa-recycle text-xl mb-2"></i>
+                <div class="text-sm">Circularity Flows</div>
+            </button>
+            <button onclick="showChart('comparison')" class="btn-primary text-center p-4">
+                <i class="fas fa-balance-scale text-xl mb-2"></i>
+                <div class="text-sm">Process Comparison</div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Visualization Area -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold" id="chartTitle">Environmental Impact Analysis</h2>
+            </div>
+            <div class="chart-container">
+                <canvas id="mainChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Key Metrics</h2>
+            </div>
+            <div id="metricsPanel">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="metric-item">
+                        <div class="text-2xl font-bold text-red-600">2,500</div>
+                        <div class="text-sm text-gray-600">kg CO₂ equivalent</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="text-2xl font-bold text-orange-600">15,000</div>
+                        <div class="text-sm text-gray-600">kWh energy</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="text-2xl font-bold text-blue-600">3,500</div>
+                        <div class="text-sm text-gray-600">L water</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="text-2xl font-bold text-green-600">85%</div>
+                        <div class="text-sm text-gray-600">material recovery</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secondary Charts -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Trend Analysis</h2>
+            </div>
+            <div class="chart-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Process Breakdown</h2>
+            </div>
+            <div class="chart-container">
+                <canvas id="breakdownChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Data Table -->
+    <div class="card">
+        <div class="card-header">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Detailed Data</h2>
+                <button onclick="exportData()" class="btn-secondary">
+                    <i class="fas fa-download mr-2"></i>
+                    Export Data
+                </button>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full table-auto">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Process Stage</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">CO₂ Emissions</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Energy Use</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Water Use</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Material Recovery</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium">Raw Material Extraction</td>
+                        <td class="px-4 py-3 text-sm">1,125 kg CO₂</td>
+                        <td class="px-4 py-3 text-sm">6,750 kWh</td>
+                        <td class="px-4 py-3 text-sm">1,575 L</td>
+                        <td class="px-4 py-3 text-sm">0%</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-medium">Processing & Manufacturing</td>
+                        <td class="px-4 py-3 text-sm">875 kg CO₂</td>
+                        <td class="px-4 py-3 text-sm">5,250 kWh</td>
+                        <td class="px-4 py-3 text-sm">1,225 L</td>
+                        <td class="px-4 py-3 text-sm">92%</td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-3 text-sm font-medium">Transportation</td>
+                        <td class="px-4 py-3 text-sm">375 kg CO₂</td>
+                        <td class="px-4 py-3 text-sm">2,250 kWh</td>
+                        <td class="px-4 py-3 text-sm">525 L</td>
+                        <td class="px-4 py-3 text-sm">0%</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="px-4 py-3 text-sm font-medium">End-of-Life</td>
+                        <td class="px-4 py-3 text-sm">125 kg CO₂</td>
+                        <td class="px-4 py-3 text-sm">750 kWh</td>
+                        <td class="px-4 py-3 text-sm">175 L</td>
+                        <td class="px-4 py-3 text-sm">85%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/visualization.js') }}"></script>
+{% endblock %}

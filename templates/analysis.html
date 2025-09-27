@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}LCA Analysis{% endblock %}
+{% block page_title %}Life Cycle Assessment Analysis{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Analysis Control Panel -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-xl font-semibold">Analysis Options</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button onclick="runAnalysis('environmental')" class="btn-primary text-center p-4">
+                <i class="fas fa-leaf text-2xl mb-2"></i>
+                <div>Environmental Impact</div>
+            </button>
+            <button onclick="runAnalysis('circularity')" class="btn-primary text-center p-4">
+                <i class="fas fa-recycle text-2xl mb-2"></i>
+                <div>Circularity Assessment</div>
+            </button>
+            <button onclick="runAnalysis('comprehensive')" class="btn-primary text-center p-4">
+                <i class="fas fa-chart-line text-2xl mb-2"></i>
+                <div>Comprehensive LCA</div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Analysis Results -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Environmental Impact Assessment</h2>
+            </div>
+            <div id="environmentalResults">
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-chart-bar text-4xl mb-4"></i>
+                    <p>Click "Environmental Impact" to view analysis</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">Circularity Score</h2>
+            </div>
+            <div id="circularityResults">
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-recycle text-4xl mb-4"></i>
+                    <p>Click "Circularity Assessment" to view score</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Analysis -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-xl font-semibold">Detailed Analysis Results</h2>
+        </div>
+        <div id="detailedAnalysis">
+            <div class="text-center py-8 text-gray-500">
+                <i class="fas fa-search text-4xl mb-4"></i>
+                <p>Run analysis to view detailed results</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/analysis.js') }}"></script>
+{% endblock %}
